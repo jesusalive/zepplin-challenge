@@ -5,14 +5,27 @@
       <div id="form-div">
         <label for="email">Email</label>
         <br />
-        <input type="text" v-model="email" id="email" placeholder="email@dominio.com.br" />
+        <input
+          type="text"
+          v-model="email"
+          id="email"
+          placeholder="email@dominio.com.br"
+        />
       </div>
       <div id="form-div">
         <label for="password">Senha</label>
         <br />
-        <input type="password" v-model="password" id="password" placeholder="********" />
+        <input
+          type="password"
+          v-model="password"
+          id="password"
+          placeholder="********"
+        />
       </div>
-      <button @click="signIn">ENTRAR</button>
+      <div class="errorDiv" v-if="error != ''">
+        <span style="color: #fff">{{ error }}</span>
+      </div>
+      <button @click="checkFields">ENTRAR</button>
       <span>esqueci minha senha</span>
       <div class="qrCode">
         <span>logar com QR Code</span>
@@ -22,20 +35,67 @@
 </template>
 
 <script>
+import api from "../services/api";
+import * as yup from "yup";
+
 export default {
   name: "LoginBox",
   data() {
     return {
       email: "",
-      password: ""
+      password: "",
+      error: "",
     };
   },
   methods: {
     signIn() {
-      console.log(this.email);
-    }
-  }
+      const credentials = {
+        email: this.email,
+        password: this.password,
+      };
+
+      api
+        .post("/auth/master-users", credentials)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch(({ response }) => {
+          switch (response.data.message) {
+            case "Invalid email":
+              this.error = "Email não encontrado";
+              break;
+            case "Invalid password":
+              this.error = "Senha incorreta";
+              break;
+            default:
+              this.error = "Houve um erro inesperdo, tente novamente";
+              break;
+          }
+        });
+    },
+
+    checkFields() {
+      schema
+        .validate({
+          email: this.email,
+          password: this.password,
+        })
+        .then(() => this.signIn())
+        .catch((err) => (this.error = err.message));
+    },
+  },
 };
+
+const schema = yup.object().shape({
+  email: yup
+    .string()
+    .email("Digite um email válido")
+    .required("Campo email requerido"),
+  password: yup
+    .string()
+    .required("Campo senha requerido")
+    .min(8, "A senha deve ter no mínimo 8 caracteres"),
+});
 </script>
 
 <style scoped>
@@ -108,9 +168,17 @@ button:hover {
   padding: 20px;
 }
 
+.errorDiv {
+  padding: 5px 20px;
+}
+
+.errorDiv span {
+  color: #dc3545 !important;
+}
+
 @media (min-width: 700px) {
   #login-box {
     width: 300px;
   }
 }
-</style>   
+</style>
