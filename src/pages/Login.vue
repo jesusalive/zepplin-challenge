@@ -11,6 +11,11 @@ export default {
   name: "Login",
   components: {
     "login-box": LoginBox
+  },
+  async mounted() {
+    const token = await localStorage.getItem("UserToken");
+
+    token != "" && this.$router.push("/dashboard");
   }
 };
 </script>

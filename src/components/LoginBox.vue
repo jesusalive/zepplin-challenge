@@ -47,7 +47,7 @@ export default {
       api
         .post("/auth/master-users", credentials)
         .then(res => {
-          this.$store.commit("setUserToken", res.data.data.token);
+          localStorage.setItem("UserToken", res.data.data.token);
           this.$router.push("/dashboard");
         })
         .catch(({ response }) => {
