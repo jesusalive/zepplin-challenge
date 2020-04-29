@@ -5,22 +5,12 @@
       <div id="form-div">
         <label for="email">Email</label>
         <br />
-        <input
-          type="text"
-          v-model="email"
-          id="email"
-          placeholder="email@dominio.com.br"
-        />
+        <input type="text" v-model="email" id="email" placeholder="email@dominio.com.br" />
       </div>
       <div id="form-div">
         <label for="password">Senha</label>
         <br />
-        <input
-          type="password"
-          v-model="password"
-          id="password"
-          placeholder="********"
-        />
+        <input type="password" v-model="password" id="password" placeholder="********" />
       </div>
       <div class="errorDiv" v-if="error != ''">
         <span style="color: #fff">{{ error }}</span>
@@ -44,20 +34,21 @@ export default {
     return {
       email: "",
       password: "",
-      error: "",
+      error: ""
     };
   },
   methods: {
     signIn() {
       const credentials = {
         email: this.email,
-        password: this.password,
+        password: this.password
       };
 
       api
         .post("/auth/master-users", credentials)
-        .then((res) => {
-          console.log(res);
+        .then(res => {
+          this.$store.commit("setUserToken", res.data.data.token);
+          this.$router.push("/dashboard");
         })
         .catch(({ response }) => {
           switch (response.data.message) {
@@ -78,12 +69,12 @@ export default {
       schema
         .validate({
           email: this.email,
-          password: this.password,
+          password: this.password
         })
         .then(() => this.signIn())
-        .catch((err) => (this.error = err.message));
-    },
-  },
+        .catch(err => (this.error = err.message));
+    }
+  }
 };
 
 const schema = yup.object().shape({
@@ -94,7 +85,7 @@ const schema = yup.object().shape({
   password: yup
     .string()
     .required("Campo senha requerido")
-    .min(8, "A senha deve ter no mínimo 8 caracteres"),
+    .min(8, "A senha deve ter no mínimo 8 caracteres")
 });
 </script>
 
