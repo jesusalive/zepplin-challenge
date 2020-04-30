@@ -12,4 +12,4 @@ yarn install
 yarn serve
 ```
 
-### Depois é só logar com as credenciais anteriormente fornecidas
+### Depois é só acessar locahost:8080 e logar com as credenciais anteriormente fornecidas
