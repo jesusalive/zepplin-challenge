@@ -2,15 +2,25 @@
   <div id="login-box" class="bg-darker">
     <h2>Zepplin</h2>
     <div>
-      <div id="form-div">
+      <div class="form-div">
         <label for="email">Email</label>
         <br />
-        <input type="text" v-model="email" id="email" placeholder="email@dominio.com.br" />
+        <input
+          type="text"
+          v-model="email"
+          id="email"
+          placeholder="email@dominio.com.br"
+        />
       </div>
-      <div id="form-div">
+      <div class="form-div">
         <label for="password">Senha</label>
         <br />
-        <input type="password" v-model="password" id="password" placeholder="********" />
+        <input
+          type="password"
+          v-model="password"
+          id="password"
+          placeholder="********"
+        />
       </div>
       <div class="errorDiv" v-if="error != ''">
         <span style="color: #fff">{{ error }}</span>
@@ -34,19 +44,19 @@ export default {
     return {
       email: "",
       password: "",
-      error: ""
+      error: "",
     };
   },
   methods: {
     signIn() {
       const credentials = {
         email: this.email,
-        password: this.password
+        password: this.password,
       };
 
       api
         .post("/auth/master-users", credentials)
-        .then(res => {
+        .then((res) => {
           localStorage.setItem("UserToken", res.data.data.token);
           this.$router.push("/dashboard");
         })
@@ -69,12 +79,12 @@ export default {
       schema
         .validate({
           email: this.email,
-          password: this.password
+          password: this.password,
         })
         .then(() => this.signIn())
-        .catch(err => (this.error = err.message));
-    }
-  }
+        .catch((err) => (this.error = err.message));
+    },
+  },
 };
 
 const schema = yup.object().shape({
@@ -85,7 +95,7 @@ const schema = yup.object().shape({
   password: yup
     .string()
     .required("Campo senha requerido")
-    .min(8, "A senha deve ter no mínimo 8 caracteres")
+    .min(8, "A senha deve ter no mínimo 8 caracteres"),
 });
 </script>
 
@@ -93,7 +103,7 @@ const schema = yup.object().shape({
 #login-box {
   padding: 20px 70px;
   text-align: center;
-  max-width: 300px;
+  max-width: 300px !important;
 }
 
 #login-box h2 {
@@ -126,17 +136,17 @@ button:hover {
   color: #b8b8b8;
 }
 
-#form-div {
+.form-div {
   text-align: left;
   margin-bottom: 15px;
 }
 
-#form-div label {
+.form-div label {
   color: #e7e7e7;
   font-size: 0.8rem;
 }
 
-#form-div input {
+.form-div input {
   color: #e7e7e7;
   background: transparent;
   border: none;
@@ -147,11 +157,11 @@ button:hover {
   width: 100%;
 }
 
-#form-div input::placeholder {
+.form-div input::placeholder {
   font-size: 1rem;
 }
 
-#form-div input:focus {
+.form-div input:focus {
   border: none;
 }
 
@@ -169,7 +179,7 @@ button:hover {
 
 @media (min-width: 700px) {
   #login-box {
-    width: 300px;
+    width: 300px !important;
   }
 }
 </style>

@@ -6,15 +6,26 @@
 
 <script>
 export default {
-  name: "App"
+  name: "App",
 };
 </script>
 
 <style>
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 body {
   padding: 0;
   margin: 0;
   font-family: "Montserrat", sans-serif;
+  animation: fade 500ms ease-in-out;
 }
 
 #app {

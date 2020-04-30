@@ -15,7 +15,7 @@ export default {
   async mounted() {
     const token = await localStorage.getItem("UserToken");
 
-    token != "" && this.$router.push("/dashboard");
+    token != null && this.$router.push("/dashboard");
   }
 };
 </script>
