@@ -16,8 +16,7 @@
               v-if="cat.status == 'active'"
               v-bind:value="cat.id"
               v-bind:key="cat.id"
-              >{{ cat.name }}</option
-            >
+            >{{ cat.name }}</option>
           </template>
         </select>
       </div>
@@ -52,7 +51,7 @@ export default {
       status: "",
       categories: [],
       error: "",
-      token: "",
+      token: ""
     };
   },
 
@@ -60,12 +59,12 @@ export default {
     async getCategories() {
       await api
         .get("/categories")
-        .then((res) => (this.categories = res.data.data));
+        .then(res => (this.categories = res.data.data));
     },
 
     async getInformation() {
-      await api.get("/products").then((res) => {
-        res.data.data.map((item) => {
+      await api.get("/products").then(res => {
+        res.data.data.map(item => {
           if (item.id == this.$route.params.id) {
             this.name = item.name;
             this.status = item.status;
@@ -79,12 +78,12 @@ export default {
       const credentials = {
         name: this.name,
         status: this.status,
-        categoryId: this.category,
+        categoryId: this.category
       };
 
       await api
         .patch("/products/" + this.$route.params.id, credentials, {
-          headers: { Authorization: "Bearer " + this.token },
+          headers: { Authorization: "Bearer " + this.token }
         })
         .then(() => {
           this.$router.push("/dashboard");
@@ -113,11 +112,11 @@ export default {
 
       schema
         .validate({
-          name: this.name,
+          name: this.name
         })
         .then(() => this.editProduct())
-        .catch((err) => (this.error = err.message));
-    },
+        .catch(err => (this.error = err.message));
+    }
   },
 
   async mounted() {
@@ -127,16 +126,16 @@ export default {
   },
 
   components: {
-    "dashboard-header": Header,
-  },
+    "dashboard-header": Header
+  }
 };
 
 const schema = yup.object().shape({
-  name: yup.string().required("Campo nome requerido"),
+  name: yup.string().required("Campo nome requerido")
 });
 </script>
 
-<style>
+<style scoped>
 h3 {
   color: #666970;
 }

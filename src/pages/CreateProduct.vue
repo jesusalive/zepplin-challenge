@@ -11,8 +11,7 @@
             v-if="cat.status == 'active'"
             v-bind:value="cat.id"
             v-bind:key="cat.id"
-            >{{ cat.name }}</option
-          >
+          >{{ cat.name }}</option>
         </template>
       </select>
       <div class="errorDiv" v-if="error != ''">
@@ -37,25 +36,25 @@ export default {
       category: "none",
       categories: [],
       error: "",
-      token: "",
+      token: ""
     };
   },
   methods: {
     async getCategories() {
       await api
         .get("/categories")
-        .then((res) => (this.categories = res.data.data));
+        .then(res => (this.categories = res.data.data));
     },
 
     async newProduct() {
       const credentials = {
         name: this.name,
-        categoryId: this.category,
+        categoryId: this.category
       };
 
       await api
         .post("/products", credentials, {
-          headers: { Authorization: "Bearer " + this.token },
+          headers: { Authorization: "Bearer " + this.token }
         })
         .then(() => {
           this.$router.push("/dashboard");
@@ -83,27 +82,27 @@ export default {
 
       schema
         .validate({
-          name: this.name,
+          name: this.name
         })
         .then(() => this.newProduct())
-        .catch((err) => (this.error = err.message));
-    },
+        .catch(err => (this.error = err.message));
+    }
   },
   async mounted() {
     this.isLogged();
     this.getCategories();
   },
   components: {
-    "dashboard-header": Header,
-  },
+    "dashboard-header": Header
+  }
 };
 
 const schema = yup.object().shape({
-  name: yup.string().required("Campo nome requerido"),
+  name: yup.string().required("Campo nome requerido")
 });
 </script>
 
-<style>
+<style scoped>
 h3 {
   color: #666970;
 }
