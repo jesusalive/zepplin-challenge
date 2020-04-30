@@ -1,24 +1,15 @@
 # zepplin
 
-## Project setup
+## Primeiramente rode o comando abaixo pelo terminal
+
 ```
 yarn install
 ```
 
-### Compiles and hot-reloads for development
+### Compile usando
+
 ```
 yarn serve
 ```
 
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Depois é só logar com as credenciais anteriormente fornecidas
